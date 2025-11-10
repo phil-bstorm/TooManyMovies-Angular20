@@ -1,0 +1,19 @@
+<nav>
+  <ul>
+    <li><a routerLink="/">Home</a></li>
+    <li><a routerLink="/movie">Movie</a></li>
+    @if(!isConnected()){
+    <li><a routerLink="/auth/login">Login</a></li>
+    <li><a routerLink="/auth/register">Register</a></li>
+    }@else {
+    <li><button (click)="onClickLogout()">Logout</button></li>
+    <li>
+      Admin
+      <ul>
+        <li><a routerLink="/admin/user">users</a></li>
+        <li><a routerLink="/admin/movie/create">movie</a></li>
+      </ul>
+    </li>
+    }
+  </ul>
+</nav>
