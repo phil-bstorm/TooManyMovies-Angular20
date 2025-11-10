@@ -1,7 +1,7 @@
 import { ValidatorFn } from '@angular/forms';
 
 interface StrongPasswordErrors {
-  loweCase?: boolean;
+  lowerCase?: boolean;
   upperCase?: boolean;
   number?: boolean;
   tooShort?: boolean;
@@ -19,7 +19,7 @@ export function strongPasswordValidator(): ValidatorFn {
     // lowecase
     const lowerCaseRegex = /.*?[a-z]/;
     if (!lowerCaseRegex.test(value)) {
-      resultat.loweCase = true;
+      resultat.lowerCase = true;
     }
 
     // uppercase

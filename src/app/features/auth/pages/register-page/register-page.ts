@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '@core/services/auth.service';
 import { strongPasswordValidator } from '@core/validators';
 
 @Component({
@@ -10,11 +11,36 @@ import { strongPasswordValidator } from '@core/validators';
 })
 export class RegisterPage {
   private readonly _fb = inject(FormBuilder);
+  private readonly _authService = inject(AuthService);
+
+  firstName = new FormControl('', [
+    Validators.required,
+    Validators.minLength(2),
+    Validators.maxLength(50),
+  ]);
+  lastName = new FormControl('', [
+    Validators.required,
+    Validators.minLength(2),
+    Validators.maxLength(50),
+  ]);
+  email = new FormControl('', [Validators.required, Validators.email]);
+  password = new FormControl('', [Validators.required, strongPasswordValidator()]);
 
   registerForm = this._fb.group({
-    firstName: ['', [Validators.required, Validators.minLength(2)]],
-    lastName: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, strongPasswordValidator()]],
+    firstName: this.firstName,
+    lastName: this.lastName,
+    email: this.email,
+    password: this.password,
   });
+
+  onSubmit() {
+    if (this.registerForm.valid) {
+      this._authService.register({
+        firstName: this.registerForm.value.firstName!,
+        lastName: this.registerForm.value.lastName!,
+        email: this.registerForm.value.email!,
+        password: this.registerForm.value.password!,
+      });
+    }
+  }
 }

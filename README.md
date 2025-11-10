@@ -14,3 +14,9 @@
 
 - protection de certaines pages (admin only)
 - appel API
+
+## TODO DE LA FIN
+
+- localization (gérer différente langues)
+- améliorer l'affichage des erreurs dans les formulaires avec un composant customs
+- composant custom pour les mots de passe avec l'oeil pour afficher/cacher
