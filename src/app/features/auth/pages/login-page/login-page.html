@@ -1,1 +1,29 @@
-<p>login-page works!</p>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="email">Email: </label>
+    <input type="email" id="email" formControlName="email" />
+    @if(email.touched && email.invalid){ @if(email.getError("required")){
+    <p>The email is required</p>
+    }@else if(email.getError("email")){
+    <p>The email must look like an email: "yourName@mail.com"</p>
+    } }
+  </div>
+  <div>
+    <label for="password">Password: FAIRE UN OEIL?????🤪🫣</label>
+    <input type="password" id="password" formControlName="password" />
+    @if(password.touched && password.invalid){ @if(password.getError("required")){
+    <p>The password is required</p>
+    } @if(password.getError("lowerCase")){
+    <p>Your password must have at least one character lower case</p>
+    } @if(password.getError("upperCase")){
+    <p>Your password must have at least one character upper case</p>
+    } @if(password.getError("number")){
+    <p>Your password must have at least one number</p>
+    } @if(password.getError("tooShort")){
+    <p>Your password must have at least 8 characters</p>
+    } @if(password.getError("specialChar")){
+    <p>Your password must have at least one special character</p>
+    } }
+  </div>
+  <button type="submit" [disabled]="loginForm.invalid">Login</button>
+</form>
