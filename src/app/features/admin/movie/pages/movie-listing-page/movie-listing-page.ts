@@ -17,7 +17,7 @@ export class MovieListingPage implements OnInit {
   movies: MovieListing[] = [];
 
   ngOnInit(): void {
-    this.movies = this._movieService.getMovies();
+    // this.movies = this._movieService.getMovies();
   }
 
   onClickDetails(id: string | number) {

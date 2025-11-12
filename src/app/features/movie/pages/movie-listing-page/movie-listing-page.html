@@ -1,1 +1,11 @@
-<p>movie-listing-page works!</p>
+@if (movies != null) {
+  <ul>
+    @for (m of movies; track m.id) {
+      <li>{{ m | json }}</li>
+    }
+  </ul>
+} @else if (moviesError) {
+  <p>{{ moviesError }}</p>
+} @else {
+  <p>Loading movies...</p>
+}
