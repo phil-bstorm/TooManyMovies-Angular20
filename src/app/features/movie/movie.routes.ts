@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { isConnectedGuard } from '@core/guards/is-connected-guard';
 
 export const routes: Routes = [
   {
@@ -8,6 +9,7 @@ export const routes: Routes = [
   },
   {
     path: ':id',
+    canActivate: [isConnectedGuard],
     loadComponent: () =>
       import('./pages/movie-details-page/movie-details-page').then((c) => c.MovieDetailsPage),
   },
