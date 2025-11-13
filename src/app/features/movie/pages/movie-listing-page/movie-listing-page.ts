@@ -22,12 +22,10 @@ export class MovieListingPage implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getMoviesSubscription = this._movieService.getMovies().subscribe({
       next: (data) => {
-        setTimeout(() => {
-          // traitement
-          console.log(data);
-          this.total = data.count;
-          this.movies = data.data;
-        }, 2000);
+        // traitement
+        console.log(data);
+        this.total = data.count;
+        this.movies = data.data;
       },
       error: (err) => {
         console.error(err);

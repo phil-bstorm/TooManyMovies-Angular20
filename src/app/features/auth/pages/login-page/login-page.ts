@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angu
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { strongPasswordValidator } from '@core/validators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
@@ -25,6 +26,8 @@ export class LoginPage {
 
   loginError = '';
 
+  loginSubscription: Subscription | null = null;
+
   async onSubmit() {
     if (this.loginForm.valid) {
       try {
@@ -35,5 +38,37 @@ export class LoginPage {
         this.loginError = (err as Error).message;
       }
     }
+  }
+
+  onSubmitThen() {
+    if (this.loginForm.valid) {
+      this._authService
+        .login(this.loginForm.value.email!, this.loginForm.value.password!)
+        .then(() => {
+          this._router.navigate(['/']);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.loginError = err.message;
+        });
+    }
+  }
+
+  onSubmitLoginObservable() {
+    this.loginSubscription = this._authService
+      .loginObservable(this.loginForm.value.email!, this.loginForm.value.password!)
+      .subscribe({
+        next: () => {
+          this._router.navigate(['/']);
+        },
+        error: (err) => {
+          console.error(err);
+          this.loginError = err.message;
+        },
+      });
+  }
+
+  ngOnDestroy() {
+    this.loginSubscription?.unsubscribe();
   }
 }
