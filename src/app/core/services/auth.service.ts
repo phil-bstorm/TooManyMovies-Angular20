@@ -1,13 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import {
-  computed,
-  effect,
-  inject,
-  Injectable,
-  Signal,
-  signal,
-  WritableSignal,
-} from '@angular/core';
+import { computed, effect, inject, Injectable, Signal, signal } from '@angular/core';
 import { UserRole } from '@core/enums';
 import { LoginResponse } from '@core/models/login-resonse.model';
 import { Token } from '@core/models/token.model';
@@ -20,22 +12,17 @@ import { firstValueFrom, Observable, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
+  // Injection du HttpClient
   private readonly _httpClient = inject(HttpClient);
 
-  // private _isConnected: WritableSignal<boolean> = signal<boolean>(false);
-  // isConnected: Signal<boolean> = this._isConnected.asReadonly();
-  isConnected: Signal<boolean> = computed(() => !!this.token());
-  /*
-    if(this.token().length > 0){
-      return true;
-    }else {
-      return false;
-    }
-  */
+  // signal pour savoir si l'utilisateur est connecté (calculé à partir du token)
+  isConnected: Signal<boolean> = computed(() => !!this.token()); // !! convertit en booléen
 
+  // signal pour le role de l'utilisateur (null si non connecté)
   private _role = signal<UserRole | null>(null);
   role = this._role.asReadonly();
 
+  // signal pour le token JWT
   private _token = signal<string | null>(null);
   token = this._token.asReadonly();
 
@@ -44,78 +31,50 @@ export class AuthService {
     const tokenStr = localStorage.getItem('token');
 
     if (tokenStr) {
+      // S'il y a un token, on le met dans le signal
       this._token.set(tokenStr);
-      /* Fait dans le effect
-      const tokenProp = jwtDecode<Token>(tokenStr);
-      this._role.set(tokenProp.role);*/
-      // this._isConnected.set(true); // fait par computed
     }
 
+    // Effet qui réagit aux changements du signal "token"
     effect(() => {
+      // Récupération de la valeur du token
       const token = this._token();
+
       if (token == null) {
+        // S'il n'y a pas de token, on supprime le token du localstorage et on met le role à null
+        // (utilisateur déconnecté)
         localStorage.removeItem('token');
         this._role.set(null);
       } else {
+        // S'il y a un token, on le stocke dans le localstorage et on met à jour le role
+        // (utilisateur connecté)
         localStorage.setItem('token', token);
         const tokenProp = jwtDecode<Token>(token);
         this._role.set(tokenProp.role);
       }
     });
-
-    effect(() => {
-      const role = this._role();
-      console.log('NOUVEAU ROLE', role);
-    });
   }
 
   async login(email: string, password: string): Promise<void> {
-    /* PREMIERE VERSION - PROMESSE */
-    const promesse = firstValueFrom(
+    // Appel API pour se connecter
+    const response = await firstValueFrom(
       this._httpClient.post<LoginResponse>(environment.apiUrl + 'auth/login', {
         email: email,
         password,
       }),
     );
 
-    const response = await promesse;
+    // Stockage du token dans le signal (ce qui déclenche l'effet)
     this._token.set(response.token);
-    /* Fait dans le effect
-    localStorage.setItem('token', response.token);
-    const tokenProp = jwtDecode<Token>(response.token);
-    this._role.set(tokenProp.role);*/
-
-    // this._isConnected.set(true); // fait dans le computed
-  }
-
-  loginObservable(email: string, password: string): Observable<LoginResponse> {
-    /* DEUXIEME VERSION - OBSERVABLE */
-    return this._httpClient
-      .post<LoginResponse>(environment.apiUrl + 'auth/login', {
-        email,
-        password,
-      })
-      .pipe(
-        tap((response) => {
-          this._token.set(response.token);
-          /* fait dans le effect
-          const tokenProp = jwtDecode<Token>(response.token);
-          this._role.set(tokenProp.role);
-          */
-          // this._isConnected.set(true); // fait dans le computed
-        }),
-      );
   }
 
   register(form: UserRegisterForm): Promise<void> {
+    // Appel API pour s'enregistrer
     return firstValueFrom(this._httpClient.post<void>(environment.apiUrl + 'auth/register', form));
   }
 
   logout() {
-    // this._isConnected.set(false); // fait dans le computed
-    // this._role.set(null); // fait dans le effect
+    // Déconnexion : on met le token à null (ce qui déclenche l'effet)
     this._token.set(null);
-
-    // localStorage.removeItem('token'); // fait dans le effect
   }
 }

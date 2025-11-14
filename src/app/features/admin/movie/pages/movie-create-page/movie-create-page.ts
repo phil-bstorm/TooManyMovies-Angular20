@@ -6,6 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './movie-create-page.html',
   styleUrl: './movie-create-page.scss',
 })
-export class MovieCreatePage {
-
-}
+export class MovieCreatePage {}

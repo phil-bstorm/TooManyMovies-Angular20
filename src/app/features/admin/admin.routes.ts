@@ -12,6 +12,8 @@ export const routes: Routes = [
       import('./movie/pages/movie-create-page/movie-create-page').then((c) => c.MovieCreatePage),
   },
   {
+    // Route dynamic pour la mise à jour d'un film spécifique
+    // L':id' dans le chemin indique un paramètre de route dynamique
     path: 'movie/:id/update',
     loadComponent: () =>
       import('./movie/pages/movie-update-page/movie-update-page').then((c) => c.MovieUpdatePage),

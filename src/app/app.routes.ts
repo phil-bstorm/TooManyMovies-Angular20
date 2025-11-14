@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { MovieListingPage } from './features/movie/pages/movie-listing-page/movie-listing-page';
-import { adminGuard } from '@core/guards/admin-guard';
+import { adminGuard } from '@core/guards';
 
 export const routes: Routes = [
   {

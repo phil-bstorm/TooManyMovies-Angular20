@@ -14,8 +14,6 @@ export class MovieDetailsPage implements OnInit {
   movieId!: number;
 
   ngOnInit(): void {
-    // this.movieId = +this._activactedRoute.snapshot.params['id'];
-
     this._activactedRoute.params.subscribe({
       next: (param) => {
         this.movieId = +param['id'];

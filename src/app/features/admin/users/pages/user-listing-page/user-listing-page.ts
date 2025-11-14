@@ -14,8 +14,9 @@ export class UserListingPage implements OnInit {
 
   users: UserListing[] = [];
 
-  ngOnInit(): void {
-    this.users = this._userService.getUsers();
+  async ngOnInit(): Promise<void> {
+    const response = await this._userService.getUsers();
+    this.users = response.data;
   }
 
   onClickDetails(id: string | number) {

@@ -13,13 +13,16 @@ import { Subscription } from 'rxjs';
   styleUrl: './login-page.scss',
 })
 export class LoginPage {
+  // Injection de services
   private readonly _fb = inject(FormBuilder);
   private readonly _authService = inject(AuthService);
   private readonly _router = inject(Router);
 
+  // Form controls (utilisés dans le template pour récupérer les erreurs)
   email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [Validators.required, strongPasswordValidator()]);
 
+  // Form group
   loginForm = this._fb.group({
     email: this.email,
     password: this.password,
@@ -27,49 +30,19 @@ export class LoginPage {
 
   loginError = '';
 
-  loginSubscription: Subscription | null = null;
-
   async onSubmit() {
+    // Vérification de la validité du formulaire
     if (this.loginForm.valid) {
+      // formulaire valide, on peut tenter de se connecter
       try {
         await this._authService.login(this.loginForm.value.email!, this.loginForm.value.password!);
+        // connexion réussie, redirigé vers la page d'accueil
         this._router.navigate(['/']);
       } catch (err) {
+        // connexion échouée, on affiche l'erreur
         console.error(err);
         this.loginError = (err as ApiError).message;
       }
     }
-  }
-
-  onSubmitThen() {
-    if (this.loginForm.valid) {
-      this._authService
-        .login(this.loginForm.value.email!, this.loginForm.value.password!)
-        .then(() => {
-          this._router.navigate(['/']);
-        })
-        .catch((err) => {
-          console.error(err);
-          this.loginError = err.message;
-        });
-    }
-  }
-
-  onSubmitLoginObservable() {
-    this.loginSubscription = this._authService
-      .loginObservable(this.loginForm.value.email!, this.loginForm.value.password!)
-      .subscribe({
-        next: () => {
-          this._router.navigate(['/']);
-        },
-        error: (err) => {
-          console.error(err);
-          this.loginError = err.message;
-        },
-      });
-  }
-
-  ngOnDestroy() {
-    this.loginSubscription?.unsubscribe();
   }
 }

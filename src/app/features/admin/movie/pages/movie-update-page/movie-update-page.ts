@@ -6,6 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './movie-update-page.html',
   styleUrl: './movie-update-page.scss',
 })
-export class MovieUpdatePage {
-
-}
+export class MovieUpdatePage {}

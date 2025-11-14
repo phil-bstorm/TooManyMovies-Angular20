@@ -11,9 +11,12 @@ import { strongPasswordValidator } from '@core/validators';
   styleUrl: './register-page.scss',
 })
 export class RegisterPage {
+  // injection de services
   private readonly _fb = inject(FormBuilder);
   private readonly _authService = inject(AuthService);
   private readonly _router = inject(Router);
+
+  // Form controls (utilisés dans le template pour récupérer les erreurs)
 
   firstName = new FormControl('', [
     Validators.required,
@@ -28,6 +31,7 @@ export class RegisterPage {
   email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [Validators.required, strongPasswordValidator()]);
 
+  // Form group
   registerForm = this._fb.group({
     firstName: this.firstName,
     lastName: this.lastName,

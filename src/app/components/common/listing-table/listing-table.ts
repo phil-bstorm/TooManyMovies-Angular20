@@ -1,9 +1,8 @@
-import { JsonPipe } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-listing-table',
-  imports: [JsonPipe],
+  imports: [],
   templateUrl: './listing-table.html',
   styleUrl: './listing-table.scss',
 })

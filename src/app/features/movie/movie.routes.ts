@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { isConnectedGuard } from '@core/guards/is-connected-guard';
+import { isConnectedGuard } from '@core/guards';
 
 export const routes: Routes = [
   {
