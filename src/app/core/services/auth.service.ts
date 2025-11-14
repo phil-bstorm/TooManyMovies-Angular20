@@ -23,6 +23,18 @@ export class AuthService {
   private _token = signal<string | null>(null);
   token = this._token.asReadonly();
 
+  constructor() {
+    // Récupération du token depuis le localstorage
+    const tokenStr = localStorage.getItem('token');
+
+    if (tokenStr) {
+      this._token.set(tokenStr);
+      const tokenProp = jwtDecode<Token>(tokenStr);
+      this._role.set(tokenProp.role);
+      this._isConnected.set(true);
+    }
+  }
+
   async login(email: string, password: string): Promise<void> {
     /* PREMIERE VERSION - PROMESSE */
     const promesse = firstValueFrom(
@@ -34,6 +46,7 @@ export class AuthService {
 
     const response = await promesse;
     this._token.set(response.token);
+    localStorage.setItem('token', response.token);
     const tokenProp = jwtDecode<Token>(response.token);
     this._role.set(tokenProp.role);
     this._isConnected.set(true);
@@ -62,5 +75,9 @@ export class AuthService {
 
   logout() {
     this._isConnected.set(false);
+    this._role.set(null);
+    this._token.set(null);
+
+    localStorage.removeItem('token');
   }
 }
