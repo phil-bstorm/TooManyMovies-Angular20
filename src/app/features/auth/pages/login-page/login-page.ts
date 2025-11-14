@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiError } from '@core/models/api-error.model';
 import { AuthService } from '@core/services/auth.service';
 import { strongPasswordValidator } from '@core/validators';
 import { Subscription } from 'rxjs';
@@ -35,7 +36,7 @@ export class LoginPage {
         this._router.navigate(['/']);
       } catch (err) {
         console.error(err);
-        this.loginError = (err as Error).message;
+        this.loginError = (err as ApiError).message;
       }
     }
   }
