@@ -35,7 +35,6 @@
   }
   ```
 - Modifié le fichier `angular.json`
-
   - [ ] Modifié `projetcts.<nom-du-projet>.architect.build.configurations.production`
     - [ ] Ajouter la propriété `fileReplacements`avec la valeur:
     ```json
@@ -55,6 +54,7 @@
 
 - [ ] Installer et configurer Prettier
   - [ ] Créer un fichier `.prettierrc` à la racine du projet avec le contenu suivant :
+
     ```json
     {
       "singleQuote": true,
@@ -72,30 +72,44 @@
       ]
     }
     ```
+
     - [ ] Ajouter un script dans le `package.json` pour formater le code :
+
     ```json
     "scripts": {
       "format": "prettier --write \"src/**/*\"",
     }
     ```
+
     - [ ] Installer l’extension Prettier dans votre éditeur de code
 
 ---
 
-## 🔐 2. Authentification
+## 🛬 2. Internationalization
+
+- [ ] Installer les pacakges
+  ```bash
+  npm i @ngx-translate/core @ngx-translate/http-loader ngx-translate-messageformat-compiler @messageformat/core
+  ```
+- [ ] Créer les fichiers de traduction dans `public/i18n`
+- [ ] Ajouter le provide dans `src\app\app.config.ts`
+- [ ] Configurer la langue par défaut dans `src\app\app.ts`
+
+---
+
+## 🔐 3. Authentification
 
 - [ ] Créer un service `AuthService` avec :
   - [ ] Méthodes `login()`, `register()`, `logout()`
   - [ ] Stockage du token dans `localStorage` _(pour rester connecter même un rafraichissement)_
   - [ ] Signal `token`, `role` lors du login
 - [ ] Créer les pages :
-
   - [ ] `register` → composant `RegisterPage`
   - [ ] `login` → composant `LoginPage`
 
 ---
 
-## ⚙️ 3. Interceptors
+## ⚙️ 4. Interceptors
 
 - [ ] Créer `token.interceptor.ts` :
   - [ ] Ajouter le header `Authorization: Bearer <token>`
@@ -109,7 +123,7 @@
 
 ---
 
-## 🧭 4. Guards
+## 🧭 5. Guards
 
 - [ ] Créer `isConnected.guard.ts` :
   - [ ] Redirige vers page `login` si utilisateur non connecté
@@ -121,7 +135,7 @@
 
 ---
 
-## 📚 5. Implémentation par fonctionnalité
+## 📚 6. Implémentation par fonctionnalité
 
 - [ ] Définir l'ordre des fonctionnalités à implémenter
 - [ ] Pour chaque fonctionnalité :
@@ -129,6 +143,7 @@
   - [ ] Créer le sous-routeur de la fonctionnalité (ex: `movie.routes.ts`, `auth.routes.ts`...)
   - [ ] Ajouter la routes vers le sous-router dans `app.routes.ts` _(avec loadChildren)_
   - [ ] Créer les composants nécessaires (liste, détail, formulaire…) et leur routing _(avec loadComponent)_
+  - [ ] Rajouter les traductions dans le fichier de traduction
   - [ ] Ajouter les guards si nécessaire
   - [ ] Créer les services pour les appels API
 - [ ] Styler les composants avec SCSS et utiliser des composants réutilisables depuis `components/`
