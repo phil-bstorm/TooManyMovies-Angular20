@@ -207,14 +207,14 @@ Dans le template HTML, il faut passer un objet avec les paramètres à la pipe `
 Pour changer la langue de l'application à la volée, vous pouvez utiliser la méthode `use` du service `TranslateService`. Par exemple, vous pouvez ajouter 2 boutons de langue dans votre barre de navigation.
 
 ```html
-<button (click)="onChangeLangage('fr')">FR</button
-><button (click)="onChangeLangage('en')">EN</button>
+<button (click)="onChangeLanguage('fr')">FR</button
+><button (click)="onChangeLanguage('en')">EN</button>
 ```
 
-Dans le composant TypeScript de la barre de navigation, injecter le service `TranslateService`, ajoutez la méthode `onChangeLangage` pour changer la langue.
+Dans le composant TypeScript de la barre de navigation, injecter le service `TranslateService`, ajoutez la méthode `onChangeLanguage` pour changer la langue.
 
 ```typescript
-onChangeLangage(lang: string) {
+onChangeLanguage(lang: string) {
     this._translate.use(lang);
   }
 ```
@@ -248,19 +248,25 @@ Ensuite, vous devez configurer le compilateur dans votre application Angular. Mo
 ```
 
 #### Utilisation (pluriels - `plural`)
+
 Vous pouvez maintenant utiliser la syntaxe MessageFormat dans vos fichiers de traduction pour gérer les pluriels et les genres.
 Par exemple, dans votre fichier `en.json`, dans les erreurs de login pour le mot de passe, vous pouvez ajouter la clé suivante :
+
 ```
     "password-input-error": "{count, plural, =0{No errors} one{Just one error} other{{count} errors}} found in the password:",
 ```
+
 Ce qui signifie que si:
+
 - `count` est égal à 0, le message affichera "No errors found in the password:"
 - `count` est égal à 1, le message affichera "Just one error found in the password:"
 - pour toute autre valeur de `count`, le message affichera "{count} errors found in the password:"
 
 #### Utilisation (genres - `select`)
+
 De même, vous pouvez gérer les genres en utilisant la syntaxe MessageFormat.
 Par exemple:
+
 ```
       "people": "{gender, select, male{He is} female{She is} other{They are}} good"
 ```
@@ -268,6 +274,7 @@ Par exemple:
 _🔎 La synthaxe s'apparente à un `switch case`_
 
 Ce qui signifie que si:
+
 - `gender` est "male", le message affichera "He is good"
 - `gender` est "female", le message affichera "She is good"
 - pour toute autre valeur de `gender`, le message affichera "They are good"

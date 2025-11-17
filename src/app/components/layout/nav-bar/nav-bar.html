@@ -19,3 +19,8 @@
     }
   </ul>
 </nav>
+
+{{ 'components.layout.nav-bar.role-user' | translate: { role: role() } }}
+
+<button (click)="onChangeLanguage('fr')">FR</button
+><button (click)="onChangeLanguage('en')">EN</button>

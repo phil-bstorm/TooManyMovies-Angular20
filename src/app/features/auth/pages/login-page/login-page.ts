@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { ApiError } from '@core/models/api-error.model';
 import { AuthService } from '@core/services/auth.service';
 import { strongPasswordValidator } from '@core/validators';
-import { Subscription } from 'rxjs';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login-page',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TranslatePipe],
   templateUrl: './login-page.html',
   styleUrl: './login-page.scss',
 })
