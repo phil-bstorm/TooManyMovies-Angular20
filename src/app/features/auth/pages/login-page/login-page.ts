@@ -5,10 +5,11 @@ import { ApiError } from '@core/models/api-error.model';
 import { AuthService } from '@core/services/auth.service';
 import { strongPasswordValidator } from '@core/validators';
 import { TranslatePipe } from '@ngx-translate/core';
+import { PasswordInput } from '@components/form/password-input/password-input';
 
 @Component({
   selector: 'app-login-page',
-  imports: [ReactiveFormsModule, TranslatePipe],
+  imports: [ReactiveFormsModule, TranslatePipe, PasswordInput],
   templateUrl: './login-page.html',
   styleUrl: './login-page.scss',
 })

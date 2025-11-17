@@ -11,8 +11,9 @@
     }
   </div>
   <div>
-    <label for="password">Password: FAIRE UN OEIL?????🤪🫣</label>
-    <input type="password" id="password" formControlName="password" />
+    <label for="password">Password:</label>
+    <app-password-input inpuId="password" formControlName="password" />
+    <!-- <input type="password" id="password" formControlName="password" /> -->
     @if (password.touched && password.invalid) {
       @if (password.getError('required')) {
         <p>The password is required</p>
