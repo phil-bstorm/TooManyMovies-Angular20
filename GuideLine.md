@@ -53,6 +53,7 @@
     ```
 
 - [ ] Installer et configurer Prettier
+  - [ ] Installer prettier: `npm i prettier -D`
   - [ ] Créer un fichier `.prettierrc` à la racine du projet avec le contenu suivant :
 
     ```json
